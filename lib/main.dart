@@ -79,33 +79,36 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemCount: postList.length,
-        itemBuilder: (BuildContext con, int index) {
-          return postContainer(
-            title: postList[index]['title'] as String,
-            colorData: postList[index]['colorData'] as Color,
-          );
-        },
+      body: GridView(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 12.0,
+        ),
+        children: [
+          postContainer(number: '1', color: Colors.red),
+          postContainer(number: '2', color: Colors.green),
+          postContainer(number: '3', color: Colors.yellow),
+          postContainer(number: '4', color: Colors.purple),
+          postContainer(number: '1', color: Colors.red),
+          postContainer(number: '2', color: Colors.green),
+          postContainer(number: '3', color: Colors.yellow),
+          postContainer(number: '4', color: Colors.purple),
+          postContainer(number: '1', color: Colors.red),
+          postContainer(number: '2', color: Colors.green),
+          postContainer(number: '3', color: Colors.yellow),
+          postContainer(number: '4', color: Colors.purple),
+        ],
       ),
     );
   }
 
-  Widget postContainer({String title = '', Color colorData = Colors.blue}) {
-    return Column(
-      children: [
-        Container(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            )),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 300,
-          color: colorData,
-        ),
-      ],
-    );
+  Widget postContainer({String number = '1', color = Colors.amber}) {
+    return Container(
+        height: 200,
+        color: color,
+        child: Center(
+          child: Text('Box $number'),
+        ));
   }
 }
