@@ -55,22 +55,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   final postList = [
-    {"title": "Smaple Title 1", "colorData": Colors.red},
-    {"title": "Smaple Title 2", "colorData": Colors.green},
-    {"title": "Smaple Title 3", "colorData": Colors.yellow},
-    {"title": "Smaple Title 4", "colorData": Colors.purple},
-    {"title": "Smaple Title 5", "colorData": Colors.orange},
-    {"title": "Smaple Title 6", "colorData": Colors.blue},
+    {'number': '1', 'color': Colors.red},
+    {'number': '2', 'color': Colors.green},
+    {'number': '3', 'color': Colors.yellow},
+    {'number': '4', 'color': Colors.purple},
+    {'number': '5', 'color': Colors.red},
+    {'number': '6', 'color': Colors.green},
+    {'number': '7', 'color': Colors.yellow},
+    {'number': '8', 'color': Colors.purple},
+    {'number': '9', 'color': Colors.red},
+    {'number': '10', 'color': Colors.green},
+    {'number': '11', 'color': Colors.yellow},
+    {'number': '12', 'color': Colors.purple},
   ];
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,26 +77,19 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: GridView(
+      body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 15,
+          crossAxisSpacing: 10.0,
           mainAxisSpacing: 12.0,
         ),
-        children: [
-          postContainer(number: '1', color: Colors.red),
-          postContainer(number: '2', color: Colors.green),
-          postContainer(number: '3', color: Colors.yellow),
-          postContainer(number: '4', color: Colors.purple),
-          postContainer(number: '1', color: Colors.red),
-          postContainer(number: '2', color: Colors.green),
-          postContainer(number: '3', color: Colors.yellow),
-          postContainer(number: '4', color: Colors.purple),
-          postContainer(number: '1', color: Colors.red),
-          postContainer(number: '2', color: Colors.green),
-          postContainer(number: '3', color: Colors.yellow),
-          postContainer(number: '4', color: Colors.purple),
-        ],
+        itemCount: postList.length,
+        itemBuilder: (context, index) {
+          return postContainer(
+            number: postList[index]['number'] as String,
+            color: postList[index]['color'] as Color,
+          );
+        },
       ),
     );
   }
