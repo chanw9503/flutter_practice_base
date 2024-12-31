@@ -73,33 +73,43 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 12.0,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
         ),
-        itemCount: postList.length,
-        itemBuilder: (context, index) {
-          return postContainer(
-            number: postList[index]['number'] as String,
-            color: postList[index]['color'] as Color,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget postContainer({String number = '1', color = Colors.amber}) {
-    return Container(
-        height: 200,
-        color: color,
-        child: Center(
-          child: Text('Box $number'),
+        body: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.black26,
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                color: Colors.brown,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                margin: const EdgeInsets.only(left: 40, bottom: 150),
+                width: 100,
+                height: 100,
+                color: Colors.amber,
+              ),
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 200),
+                  width: 200,
+                  height: 70,
+                  color: Colors.blue,
+                )),
+          ],
         ));
   }
 }
