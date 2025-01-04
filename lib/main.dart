@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,61 +58,51 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final postList = [
-    {'number': '1', 'color': Colors.red},
-    {'number': '2', 'color': Colors.green},
-    {'number': '3', 'color': Colors.yellow},
-    {'number': '4', 'color': Colors.purple},
-    {'number': '5', 'color': Colors.red},
-    {'number': '6', 'color': Colors.green},
-    {'number': '7', 'color': Colors.yellow},
-    {'number': '8', 'color': Colors.purple},
-    {'number': '9', 'color': Colors.red},
-    {'number': '10', 'color': Colors.green},
-    {'number': '11', 'color': Colors.yellow},
-    {'number': '12', 'color': Colors.purple},
-  ];
+  static Future loadJson() async {
+    final String response = await rootBundle.loadString("lib/users.json");
+    final data = await json.decode(response);
+    return data['users'];
+  }
+
+  Future userList = loadJson();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: FutureBuilder(
+          future: userList,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                        "${snapshot.data[index]['id']} : ${snapshot.data[index]['username']}"),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+              );
+            }
+          },
         ),
-        body: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.black26,
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 150,
-                color: Colors.brown,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                margin: const EdgeInsets.only(left: 40, bottom: 150),
-                width: 100,
-                height: 100,
-                color: Colors.amber,
-              ),
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 200),
-                  width: 200,
-                  height: 70,
-                  color: Colors.blue,
-                )),
-          ],
-        ));
+      ),
+    );
   }
 }
